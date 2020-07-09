@@ -1,0 +1,10 @@
+version: "3"
+services:
+  nlpbook:
+    environment:
+      - HOME=/nlp100knock
+    working_dir: /nlp100knock
+    volumes:
+      - ~/.gitconfig:/nlp100knock/.gitconfig
+      - ~/.ssh:/nlp100knock/.ssh
+    command: jupyter lab --NotebookApp.token='' --notebook-dir=/nlp100knock/ --ip=0.0.0.0 --port=8888 --no-browser --allow-root

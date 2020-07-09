@@ -1,0 +1,47 @@
+# 参考記事
+https://qiita.com/RayDoe/items/e1ec21c63a15adb1a061
+
+# 使用するDocker image file
+NLP入門用に作成したimage file: ubuntu:18.04
+
+# containerの作成
+docker run -it --name nlp100knock -v "/../:/nlp100knock" -p 8008:8008 ubuntu:18.04 bash
+                     この名前のコンテナ    ボリュームをマウント   portを設定(8008同士) 使用image bash実行
+
+# containerの構成
+こうやって作成すると、pwdを設定していないためrootから始まる。
+Jupyter labを使用するために、設定する。
+$ jupyter notebook --generate-config
+>>> Writing default config to: /root/.jupyter/jupyter_notebook_config.py
+$ cd
+$ cd .jupyter
+$ ipython
+In [1]: from IPython.lib import passwd
+In [2]: passwd()
+>>> Enter password: 
+>>> Verify password: 
+>>> Out[2]: 'sha1:f97cdb722a61:3dd88e81bc2f31d0d19b8eea708e3d78305aadd6'
+In [3]: exit
+
+jupyter_notebook_config.pyに追記していく(port 8008で実行するよう指示、設定したpasswordを入力)
+$ echo "c = get_config()" >> jupyter_notebook_config.py
+$ echo "c.IPKernelApp.pylab = 'inline'; c.NotebookApp.ip = '0.0.0.0'; c.NotebookApp.open_browser = False; c.NotebookApp.port = 8008; c.NotebookApp.password = 'sha1:f97cdb722a61:3dd88e81bc2f31d0d19b8eea708e3d78305aadd6' " >> jupyter_notebook_config.py
+
+$ cd
+$ cd ..
+$ cd nlp100knock/Users/KazumasaSasahara/documents/NLP100KNOCK
+$ jupyter lab
+>>> [I 05:00:09.338 LabApp] JupyterLab extension loaded from /root/local/python-3.7.0/lib/python3.7/site-packages/jupyterlab
+>>> [I 05:00:09.338 LabApp] JupyterLab application directory is /root/local/python-3.7.0/share/jupyter/lab
+>>> [C 05:00:09.676 LabApp] Running as root is not recommended. Use --allow-root to bypass.
+>>> root@5296c1aea41f:/nlp100knock/Users/KazumasaSasahara/documents/NLP100KNOCK# jupyter lab --allow-root
+>>> [I 05:01:46.609 LabApp] JupyterLab extension loaded from /root/local/python-3.7.0/lib/python3.7/site-packages/jupyterlab
+>>> [I 05:01:46.609 LabApp] JupyterLab application directory is /root/local/python-3.7.0/share/jupyter/lab
+>>> [I 05:01:46.705 LabApp] Serving notebooks from local directory: /nlp100knock/Users/KazumasaSasahara/documents/NLP100KNOCK
+>>> [I 05:01:46.705 LabApp] The Jupyter Notebook is running at:
+>>> [I 05:01:46.705 LabApp] http://5296c1aea41f:8008/
+>>> [I 05:01:46.705 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+
+# jupyter labへアクセス
+http://localhost:8008/
+でjupyter labを使用可能、その際設定したpasswordを求められる。
