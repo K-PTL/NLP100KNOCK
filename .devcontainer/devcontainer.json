@@ -1,7 +1,7 @@
 {
     "name": "NLP100KNOCK-Remote-dev Project",
     "dockerComposeFile": [
-      "../docker-compose.yml",
+      "../docker/docker-compose.yml",
       "docker-compose.extend.yml"
     ],
     "service": "100knock",
@@ -12,5 +12,5 @@
       "files.trimFinalNewlines": true,
       "terminal.integrated.shell.linux": "/bin/bash"
     },
-    "shutdownAction": "none" // or "stopCompose"
+    "shutdownAction": "stopCompose"
 }

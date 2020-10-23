@@ -1,0 +1,15 @@
+version: '3'
+services:
+  100knock:
+    container_name: nlp100knock
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    image: nlpbook:nlp100
+    volumes:
+      - '../:/nlp100knock'
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    tty: true

@@ -1,6 +1,6 @@
 version: "3"
 services:
-  nlpbook:
+  100knock:
     environment:
       - HOME=/nlp100knock
     working_dir: /nlp100knock
